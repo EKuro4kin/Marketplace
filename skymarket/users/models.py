@@ -1,24 +1,15 @@
 from django.contrib.auth.models import AbstractBaseUser, AbstractUser
 from django.db import models
-from users.managers import UserManager
+from .managers import UserManager, UserRoles
 from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext_lazy as _
 
 
-class UserRoles:
-    USER = 'user'
-    ADMIN = 'admin'
-    choices = (
-        ("Пользователь", USER),
-        ("Админ", ADMIN),
-    )
-
-
 class User(AbstractBaseUser):
-    first_name = models.CharField(verbose_name="Имя", help_text="Введите имя пользователя", max_length=50)
-    last_name = models.CharField(verbose_name="Фамилия", help_text="Введите фамилию пользователя", max_length=50)
-    phone = models.CharField(verbose_name="Телефон", help_text="Введите номер телефона", max_length=20)
-    email = models.EmailField(verbose_name="Электронная почта", max_length=200,
+    first_name = models.CharField(verbose_name="Имя", help_text="Введите имя пользователя", max_length=64)
+    last_name = models.CharField(verbose_name="Фамилия", help_text="Введите фамилию пользователя", max_length=64)
+    phone = models.CharField(verbose_name="Телефон", help_text="Введите номер телефона", max_length=128)
+    email = models.EmailField(verbose_name="Электронная почта", max_length=254,
                               unique=True)  # используется в кач. логина
     role = models.CharField(choices=UserRoles.choices, default='user', max_length=12)
     image = models.ImageField(upload_to='django_media/')

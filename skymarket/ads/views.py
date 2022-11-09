@@ -1,10 +1,11 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import pagination, viewsets, permissions
 from rest_framework.generics import RetrieveAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Ad, Comment
 from .filters import AdFilter
-from .serializers import AdSerializer, CommentSerializer, AdDetailSerializer
+from .serializers import AdSerializer, CommentSerializer
 from rest_framework.decorators import action
 
 
@@ -12,23 +13,15 @@ class AdPagination(pagination.PageNumberPagination):
     page_size = 4
 
 
-# class AdViewSet(viewsets.ModelViewSet):
+# class AdDetailView(RetrieveAPIView):
 #     queryset = Ad.objects.all()
-#     serializer_class = AdSerializer
-
-
-class AdDetailView(RetrieveAPIView):
-    queryset = Ad.objects.all()
-    serializer_class = AdDetailSerializer
-    # permission_classes = [IsAuthenticated]
+#     serializer_class = AdDetailSerializer
+#     # permission_classes = [IsAuthenticated]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
-    # ad = Ad.objects.get(pk=ad_pk)
-    # comments = Comments.objects.filter(ad=ad)
 
 
 class AdViewSet(viewsets.ModelViewSet):
@@ -51,10 +44,13 @@ class AdViewSet(viewsets.ModelViewSet):
             self.permission_classes = [permissions.IsAdminUser]
         return super().get_permissions()
 
-    def get_serializer_class(self):
-        if self.action == "retrieve":
-            return AdDetailSerializer
-        return AdSerializer
+    # def get_serializer_class(self):
+    #     if self.action == "retrieve":
+    #         return AdDetailSerializer
+    #     return AdSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
 
 

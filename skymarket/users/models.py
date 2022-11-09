@@ -12,7 +12,7 @@ class User(AbstractBaseUser):
     email = models.EmailField(verbose_name="Электронная почта", max_length=254,
                               unique=True)  # используется в кач. логина
     role = models.CharField(choices=UserRoles.choices, default='user', max_length=12)
-    image = models.ImageField(upload_to='django_media/')
+    image = models.ImageField(upload_to='django_media/', null=True)
     is_active = models.BooleanField(default=True)
 
     @property

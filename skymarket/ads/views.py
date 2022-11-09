@@ -1,6 +1,4 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import pagination, viewsets, permissions
-from rest_framework.generics import RetrieveAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .models import Ad, Comment
@@ -11,12 +9,6 @@ from rest_framework.decorators import action
 
 class AdPagination(pagination.PageNumberPagination):
     page_size = 4
-
-
-# class AdDetailView(RetrieveAPIView):
-#     queryset = Ad.objects.all()
-#     serializer_class = AdDetailSerializer
-#     # permission_classes = [IsAuthenticated]
 
 
 class CommentViewSet(viewsets.ModelViewSet):

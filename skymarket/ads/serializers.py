@@ -1,11 +1,7 @@
-from typing import List
-
 from rest_framework import serializers
 
 from .models import Ad, Comment
 
-
-# TODO Сериалайзеры. Предлагаем Вам такую структуру, однако вы вправе использовать свою
 
 class CommentSerializer(serializers.ModelSerializer):
     author_id = serializers.IntegerField(source='author.id', read_only=True)
@@ -76,5 +72,4 @@ class AdSerializer(serializers.ModelSerializer):
 #             'author_last_name',
 #             'author_id'
 #         ]
-#
-# # написать сериалайзер с логикой отображающий мои объявления (.../api/ads/me)
+
